@@ -1,6 +1,7 @@
 import pkg from 'mongoose';
 import { Role } from '../lib/constants';
 import bcrypt from 'bcryptjs';
+import gravatar from 'gravatar';
 
 const { Schema, model } = pkg;
 
@@ -34,8 +35,17 @@ const userSchema = new Schema({
     token: {
         type: String,
         default: null,
-
-    }
+    },
+    avatar: {
+        type: String,
+        default: function () {
+            return gravatar.url(this.email, { s: '250' }, true)
+        },
+    },
+    idAvatarCloud: {
+        type: String,
+        default: null,
+    },
 },
     {
         versionKey: false,
@@ -59,10 +69,9 @@ userSchema.pre('save', async function (next) {
     next()
 });
 
-
 userSchema.methods.isValidPassword = async function (password) {
     return await bcrypt.compare(password, this.password)
-}
+};
 
 const User = model('user', userSchema);
 

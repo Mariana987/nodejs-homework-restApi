@@ -1,5 +1,7 @@
+import pkg from 'mongoose';
 import Contact from '../model/contact';
 
+const { Types } = pkg;
 
 const listContacts = async (userId, {
   sortBy,
@@ -60,6 +62,22 @@ const updateContact = async (userId, contactId, body) => {
     { new: true },
   )
   return result
+};
+
+const getStatisticsContacts = async (id) => {
+  const data = Contact.aggregate([
+    { $match: { owner: Types.ObjectId(id) } },
+    {
+      $group: {
+        _id: 'stats',
+        totalAge: { $sum: '$age' },
+        minAge: { $min: '$age' },
+        maxAge: { $max: '$age' },
+        avgAge: { $avg: '$age' }
+      }
+    },
+  ])
+  return data
 }
 
 
@@ -68,7 +86,8 @@ export default {
   getContactById,
   removeContact,
   addContact,
-  updateContact
+  updateContact,
+  getStatisticsContacts
 };
 
 

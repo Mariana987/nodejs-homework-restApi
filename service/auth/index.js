@@ -1,23 +1,20 @@
 import Users from '../../repository/users';
 import jwt from 'jsonwebtoken';
 
-
 const SECRET_KEY = process.env.JWT_SECRET_KEY
-
 class AuthService {
-
     async isUserExist(email) {
         const user = await Users.findByEmail(email)
         return !!user
     };
-
     async create(body) {
-        const { id, name, email, role } = await Users.create(body)
+        const { id, name, email, role, avatar } = await Users.create(body)
         return {
             id,
             name,
             email,
-            role
+            role,
+            avatar,
         }
     };
 
@@ -42,9 +39,6 @@ class AuthService {
         await Users.updateToken(id, token)
     };
 
-}
+};
 
-
-
-
-export default AuthService
+export default new AuthService()
