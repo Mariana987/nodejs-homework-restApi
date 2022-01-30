@@ -55,7 +55,6 @@ const verifyUser = async (req, res, next) => {
 
 };
 
-
 const repeatEmailForVerifyUser = async (req, res, next) => {
     const { email } = req.body
     const user = await repositoryUsers.findByEmail(email)
@@ -82,12 +81,12 @@ const repeatEmailForVerifyUser = async (req, res, next) => {
                 })
         }
         return res
-            .status(HttpCode.UE)
+            .status(HttpCode.SERVICE_UNAVAILABLE)
             .json({
                 status: 'error',
-                code: HttpCode.UE,
+                code: HttpCode.SERVICE_UNAVAILABLE,
                 data: {
-                    message: 'Unprocessable Entity'
+                    message: 'Service Unavailable'
                 }
             })
     }

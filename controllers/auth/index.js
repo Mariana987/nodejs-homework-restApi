@@ -1,7 +1,6 @@
 import { HttpCode } from '../../lib/constants';
 import authService from '../../service/auth/index';
 import { EmailService, SenderNodemailer, SenderSendGrid } from '../../service/email';
-// export const authService = new AuthService()
 
 const registration = async (req, res, next) => {
     try {

@@ -1,12 +1,10 @@
 import Mailgen from 'mailgen';
-
-
 class EmailService {
     constructor(env, sender) {
         this.sender = sender
         switch (env) {
             case 'development':
-                this.link = 'https://b20a-91-226-196-88.ngrok.io'
+                this.link = 'https://b527-91-226-196-88.ngrok.io'
                 break
             case 'test':
                 this.link = 'http://localhost:5000/'

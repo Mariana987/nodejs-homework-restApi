@@ -10,19 +10,19 @@ class SenderSendGrid {
 };
 
 class SenderNodemailer {
-    async send(msg) {
-        const config = {
-            host: "smtp.mail.ru",
-            port: 465,
-            secure: true,
-            auth: {
-                user: process.env.USER_NODEMAILER,
-                pass: process.env.PASW_NODEMAILER,
-            },
-        }
-        const transporter = nodemailer.createTransport(config)
-        return await transporter.sendMail({ ...msg, from: process.env.USER_NODEMAILER })
-    }
+    //     async send(msg) {
+    //         const config = {
+    //             host: "smtp.mail.ru",
+    //             port: 465,
+    //             secure: true,
+    //             auth: {
+    //                 user: process.env.USER_NODEMAILER,
+    //                 pass: process.env.PASW_NODEMAILER,
+    //             },
+    //         }
+    //         const transporter = nodemailer.createTransport(config)
+    //         return await transporter.sendMail({ ...msg, from: process.env.USER_NODEMAILER })
+    //     }
 };
 
 
