@@ -1,6 +1,6 @@
 import { HttpCode } from '../../lib/constants';
 import authService from '../../service/auth/index';
-
+import { EmailService, SenderNodemailer, SenderSendGrid } from '../../service/email';
 // export const authService = new AuthService()
 
 const registration = async (req, res, next) => {
@@ -16,9 +16,25 @@ const registration = async (req, res, next) => {
                     message: 'Email is already exist'
                 })
         }
-        const data = await authService.create(req.body)
+        const userData = await authService.create(req.body)
+        const emailService = new EmailService(
+            process.env.NODE_ENV,
+            new SenderSendGrid(),
+        )
+
+        const isSend = await emailService.sendVerifyEmail(
+            email,
+            userData.name,
+            userData.verifyTokenEmail,
+        )
+        delete userData.verifyTokenEmail
+
         res.status(HttpCode.CREATED)
-            .json({ status: 'success', code: HttpCode.CREATED, data })
+            .json({
+                status: 'success',
+                code: HttpCode.CREATED,
+                data: { ...userData, isSendEmailVerify: isSend },
+            })
     } catch (err) {
         next(err)
     }
